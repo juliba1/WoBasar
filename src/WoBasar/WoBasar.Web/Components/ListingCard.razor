@@ -1,0 +1,30 @@
+﻿@using WoBasar.Shared.Models
+
+<MudCard Class="listing-card">
+    <MudCardMedia Image="https://via.placeholder.com/300x180" Height="180" />
+
+    <MudCardContent>
+        <MudText Typo="Typo.h6">@Listing.Title</MudText>
+
+        <MudText Class="mt-1" Color="Color.Secondary">
+            @Listing.Description
+        </MudText>
+
+        <MudChip Class="category-chip mt-2" T="MDLTest" Color="Color.Primary" Variant="Variant.Outlined">
+            @Listing.Category
+        </MudChip>
+
+        <MudText Class="price mt-3">@Listing.Price €</MudText>
+    </MudCardContent>
+
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">
+            Details
+        </MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public MDLTest Listing { get; set; }
+}

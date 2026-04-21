@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "KomplettStart",
+    "Projects": [
+      {
+        "Path": "WoBasar.Web\\WoBasar.Web.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "WoBasar.API\\WoBasar.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

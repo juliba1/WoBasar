@@ -1,0 +1,11 @@
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\bin\Debug\net8.0\WoBasar.Shared.deps.json
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\bin\Debug\net8.0\WoBasar.Shared.dll
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\bin\Debug\net8.0\WoBasar.Shared.pdb
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.AssemblyInfoInputs.cache
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.AssemblyInfo.cs
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.csproj.CoreCompileInputs.cache
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.dll
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\refint\WoBasar.Shared.dll
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.pdb
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\ref\WoBasar.Shared.dll
