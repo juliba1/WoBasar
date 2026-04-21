@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using MudBlazor
+@inject HttpClient Http
 
 <PageTitle>WoBasar – Entdecken</PageTitle>
 
@@ -137,75 +138,23 @@
         new("sonstiges",  "🎯", "Sonstiges",     141),
     };
 
-    private class Listing
+	private List<ListingOutputModel> _listings = new();
+
+    protected override async Task OnInitializedAsync()
     {
-        public string Title { get; set; } = "";
-        public string Category { get; set; } = "";
-        public string FilterTag { get; set; } = "Alle";
-        public string Emoji { get; set; } = "";
-        public string ThumbClass { get; set; } = "";
-        public string Price { get; set; } = "";
-        public string PriceSuffix { get; set; } = "";
-        public string? Badge { get; set; }
-        public string BadgeClass { get; set; } = "";
-        public string Username { get; set; } = "";
-        public string UserInitials { get; set; } = "";
-        public string Location { get; set; } = "";
-        public string AvatarBg { get; set; } = "#EEF2FF";
-        public string AvatarColor { get; set; } = "#4F46E5";
-        public bool Saved { get; set; }
-        public int PriceRaw { get; set; }
+        await GetData();
     }
 
-    private List<Listing> _listings = new()
+    private async Task GetData()
     {
-        new Listing { Title="Analysis I – Forster, 12. Auflage", Category="Bücher & Skripte", FilterTag="Neu",
-            Emoji="📚", ThumbClass="thumb-books", Price="8 €", PriceSuffix=" VB",
-            Badge="Neu", BadgeClass="badge-new",
-            Username="marie_kit", UserInitials="MK", Location="Südstadt", Saved=true, PriceRaw=8 },
+        _listings = await Http.GetFromJsonAsync<List<ListingOutputModel>>("api/Listing");
+	}
 
-        new Listing { Title="MacBook Air M2 – wie neu", Category="Elektronik", FilterTag="Alle",
-            Emoji="💻", ThumbClass="thumb-tech", Price="880 €", PriceSuffix=" VB",
-            Username="tim.freiburg", UserInitials="TF", Location="Innenstadt",
-            AvatarBg="#F0FDF4", AvatarColor="#15803D", PriceRaw=880 },
-
-        new Listing { Title="12m² Zimmer, WG Nähe KIT", Category="WG & Wohnen", FilterTag="In der Nähe",
-            Emoji="🏠", ThumbClass="thumb-home", Price="390 €", PriceSuffix=" / Monat",
-            Badge="WG", BadgeClass="badge-wg",
-            Username="sara_riedel", UserInitials="SR", Location="Oststadt",
-            AvatarBg="#FFF7ED", AvatarColor="#C2410C", PriceRaw=390 },
-
-        new Listing { Title="Mathe / Lineare Algebra – Nachhilfe", Category="Nachhilfe", FilterTag="Alle",
-            Emoji="📐", ThumbClass="thumb-study", Price="20 €", PriceSuffix=" / Std",
-            Username="jan.lehmann", UserInitials="JL", Location="Nordstadt", PriceRaw=20 },
-
-        new Listing { Title="Stadtrad 28\" – Kette neu", Category="Sport & Freizeit", FilterTag="Preisalarm",
-            Emoji="🚲", ThumbClass="thumb-sport", Price="65 €",
-            Badge="Preistipp", BadgeClass="badge-deal",
-            Username="paula.w", UserInitials="PW", Location="Weststadt",
-            AvatarBg="#FDF4FF", AvatarColor="#7E22CE", PriceRaw=65 },
-
-        new Listing { Title="Sony WH-1000XM4 Kopfhörer", Category="Elektronik", FilterTag="Alle",
-            Emoji="🎧", ThumbClass="thumb-misc", Price="155 €", PriceSuffix=" VB",
-            Username="b.hofmann", UserInitials="BH", Location="Durlach",
-            AvatarBg="#F0F9FF", AvatarColor="#0369A1", PriceRaw=155 },
-
-        new Listing { Title="Thermodynamik – Skript WS23/24", Category="Bücher & Skripte", FilterTag="Neu",
-            Emoji="🗒️", ThumbClass="thumb-books", Price="Gratis",
-            Badge="Neu", BadgeClass="badge-new",
-            Username="alex_kit23", UserInitials="AK", Location="Südstadt", PriceRaw=0 },
-
-        new Listing { Title="IKEA Schreibtisch LINNMON 120×60", Category="Sonstiges", FilterTag="Alle",
-            Emoji="🛏️", ThumbClass="thumb-misc", Price="35 €",
-            Username="f.mueller", UserInitials="FM", Location="Innenstadt",
-            AvatarBg="#F0F9FF", AvatarColor="#0369A1", PriceRaw=35 },
-    };
-
-    private IEnumerable<Listing> FilteredListings => _activeFilter == "Alle"
+    private IEnumerable<ListingOutputModel> FilteredListings => _activeFilter == "Alle"
         ? SortedListings
         : SortedListings.Where(l => l.FilterTag == _activeFilter);
 
-    private IEnumerable<Listing> SortedListings => _sortBy switch
+    private IEnumerable<ListingOutputModel> SortedListings => _sortBy switch
     {
         "Preis ↑" => _listings.OrderBy(l => l.PriceRaw),
         "Preis ↓" => _listings.OrderByDescending(l => l.PriceRaw),
@@ -219,6 +168,6 @@
         // Navigation to category page or filter — erweiterbar
     }
 
-    private void ToggleSaved(Listing listing) => listing.Saved = !listing.Saved;
+    private void ToggleSaved(ListingOutputModel listing) => listing.Saved = !listing.Saved;
 }
 

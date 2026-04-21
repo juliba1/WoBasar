@@ -9,3 +9,5 @@ C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\D
 C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\refint\WoBasar.Shared.dll
 C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.pdb
 C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\ref\WoBasar.Shared.dll
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.csproj.AssemblyReference.cache
+C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar.Shared\obj\Debug\net8.0\WoBasar.Shared.sourcelink.json

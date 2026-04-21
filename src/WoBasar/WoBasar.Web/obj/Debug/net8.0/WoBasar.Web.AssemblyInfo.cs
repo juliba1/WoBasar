@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WoBasar.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec2f30a378b0685619fc22777d30f915beb532ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("WoBasar.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WoBasar.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
