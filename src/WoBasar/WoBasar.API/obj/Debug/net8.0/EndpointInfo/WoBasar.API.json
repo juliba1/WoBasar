@@ -5,10 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Test": {
+    "/api/Listing": {
       "get": {
         "tags": [
-          "Test"
+          "Listing"
         ],
         "responses": {
           "200": {
@@ -18,7 +18,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MDLTest"
+                    "$ref": "#/components/schemas/ListingOutputModel"
                   }
                 }
               },
@@ -26,7 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MDLTest"
+                    "$ref": "#/components/schemas/ListingOutputModel"
                   }
                 }
               },
@@ -34,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MDLTest"
+                    "$ref": "#/components/schemas/ListingOutputModel"
                   }
                 }
               }
@@ -46,30 +46,81 @@
   },
   "components": {
     "schemas": {
-      "MDLTest": {
+      "ListingOutputModel": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "uuid"
           },
           "title": {
             "type": "string",
             "nullable": true
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
           "category": {
             "type": "string",
             "nullable": true
           },
+          "filterTag": {
+            "type": "string",
+            "nullable": true
+          },
+          "emoji": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbClass": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "string",
+            "nullable": true
+          },
+          "priceSuffix": {
+            "type": "string",
+            "nullable": true
+          },
+          "badge": {
+            "type": "string",
+            "nullable": true
+          },
+          "badgeClass": {
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "userInitials": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "type": "string",
+            "nullable": true
+          },
+          "avatarBg": {
+            "type": "string",
+            "nullable": true
+          },
+          "avatarColor": {
+            "type": "string",
+            "nullable": true
+          },
+          "saved": {
+            "type": "boolean"
+          },
+          "priceRaw": {
+            "type": "integer",
+            "format": "int32"
+          },
           "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
             "type": "string",
             "format": "date-time"
           }
