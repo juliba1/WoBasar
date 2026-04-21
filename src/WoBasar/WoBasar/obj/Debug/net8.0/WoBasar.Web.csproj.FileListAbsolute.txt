@@ -1036,3 +1036,6 @@ C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar\obj\Debug\ne
 C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar\obj\Debug\net8.0\refint\WoBasar.Web.dll
 C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar\obj\Debug\net8.0\WoBasar.Web.pdb
 C:\1_HTWG\6.Semester\4_VerteilteSysteme\Projekt\src\WoBasar\WoBasar\obj\Debug\net8.0\ref\WoBasar.Web.dll
+C:\Users\Mimi\source\repos\juliba1\WoBasar\src\WoBasar\WoBasar\obj\Debug\net8.0\WoBasar.Web.dll
+C:\Users\Mimi\source\repos\juliba1\WoBasar\src\WoBasar\WoBasar\obj\Debug\net8.0\refint\WoBasar.Web.dll
+C:\Users\Mimi\source\repos\juliba1\WoBasar\src\WoBasar\WoBasar\obj\Debug\net8.0\WoBasar.Web.pdb

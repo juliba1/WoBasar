@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\1_HTWG\\6.Semester\\4_VerteilteSysteme\\Projekt\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj": {}
+    "C:\\Users\\Mimi\\source\\repos\\juliba1\\WoBasar\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj": {}
   },
   "projects": {
-    "C:\\1_HTWG\\6.Semester\\4_VerteilteSysteme\\Projekt\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj": {
+    "C:\\Users\\Mimi\\source\\repos\\juliba1\\WoBasar\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\1_HTWG\\6.Semester\\4_VerteilteSysteme\\Projekt\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\Mimi\\source\\repos\\juliba1\\WoBasar\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj",
         "projectName": "WoBasar.Shared",
-        "projectPath": "C:\\1_HTWG\\6.Semester\\4_VerteilteSysteme\\Projekt\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj",
-        "packagesPath": "C:\\Users\\bache\\.nuget\\packages\\",
-        "outputPath": "C:\\1_HTWG\\6.Semester\\4_VerteilteSysteme\\Projekt\\src\\WoBasar\\WoBasar.Shared\\obj\\",
+        "projectPath": "C:\\Users\\Mimi\\source\\repos\\juliba1\\WoBasar\\src\\WoBasar\\WoBasar.Shared\\WoBasar.Shared.csproj",
+        "packagesPath": "C:\\Users\\Mimi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mimi\\source\\repos\\juliba1\\WoBasar\\src\\WoBasar\\WoBasar.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\bache\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mimi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -30,6 +30,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -44,10 +45,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Supabase": {
@@ -66,12 +68,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

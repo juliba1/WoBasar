@@ -5,7 +5,6 @@ using Supabase.Postgrest.Models;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace WoBasar.Shared
 {
     [Table("listings")] // Wichtig: Der genaue Name deiner Supabase-Tabelle
