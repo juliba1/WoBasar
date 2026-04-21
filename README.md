@@ -37,7 +37,7 @@ Dieses Projekt entsteht im Rahmen der Vorlesung **Verteilte Systeme** als Teamar
 ### Installation
 
 ```bash
-git clone https://github.com/<euer-repo>/wobasar.git
+git clone https://github.com/juliba1/WoBasar
 cd wobasar
 dotnet restore
 dotnet run
