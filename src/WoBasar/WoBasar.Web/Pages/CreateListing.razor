@@ -1,0 +1,234 @@
+@page "/meine-anzeigen/neu"
+@page "/meine-anzeigen/bearbeiten/{ListingId:guid}"
+@using System.Net.Http.Json
+@using WoBasar.Shared
+@using WoBasar.Shared.Models
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+<PageTitle>@(_isEditMode ? "Anzeige bearbeiten" : "Neue Anzeige")</PageTitle>
+
+<MudPaper Class="pa-4 mb-4" Elevation="0" Style="border: 0.5px solid var(--mud-palette-divider); border-radius: 14px; background: linear-gradient(135deg, rgba(79,70,229,0.08), rgba(14,116,144,0.08));">
+    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large">
+            <MudIcon Icon="@Icons.Material.Filled.PostAdd" />
+        </MudAvatar>
+        <MudStack Spacing="0">
+            <MudText Typo="Typo.h5" Style="font-weight: 700;">@(_isEditMode ? "Anzeige bearbeiten" : "Neue Anzeige erstellen")</MudText>
+            <MudText Typo="Typo.body2" Style="opacity: .8;">@(_isEditMode ? "Passe deine Anzeige an und speichere die Änderungen." : "Schnell ausfuellen, speichern und sofort in Meine Anzeigen sehen.")</MudText>
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+<MudPaper Class="pa-4" Elevation="0" Style="max-width: 760px; border: 0.5px solid var(--mud-palette-divider); border-radius: 14px;">
+<MudStack Spacing="3">
+    <MudText Typo="Typo.subtitle2" Style="font-weight: 600; opacity:.85;">Details</MudText>
+
+    @if (_isLoadingListing)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+
+    @if (_isLoadingCategories)
+    {
+        <MudProgressLinear Indeterminate="true" />
+    }
+
+    <MudTextField @bind-Value="_model.Title" Label="Titel" Required="true" Variant="Variant.Outlined" />
+    <MudTextField @bind-Value="_model.Emoji" Label="Emoji" Required="true" HelperText="Pflichtfeld" Variant="Variant.Outlined" />
+
+    <MudSelect T="string" @bind-Value="_model.Category" Label="Kategorie" Required="true" Variant="Variant.Outlined">
+        @foreach (var category in _categories)
+        {
+            <MudSelectItem Value="@category">@category</MudSelectItem>
+        }
+    </MudSelect>
+
+    <MudSelect T="string" @bind-Value="_model.FilterTag" Label="Filter-Tag" Required="true" Variant="Variant.Outlined">
+        @foreach (var filterTag in _filterTags)
+        {
+            <MudSelectItem Value="@filterTag">@filterTag</MudSelectItem>
+        }
+    </MudSelect>
+
+    <MudNumericField T="int?"
+                     @bind-Value="_priceRaw"
+                     Label="Preis (numerisch)"
+                     Min="0"
+                     Required="true"
+                     Variant="Variant.Outlined"
+                     HideSpinButtons="true"
+                     Placeholder="z.B. 120" />
+    <MudTextField @bind-Value="_model.PriceSuffix" Label="Preis-Zusatz (optional)" Placeholder="VB" Variant="Variant.Outlined" />
+    <MudTextField @bind-Value="_model.Location" Label="Ort" Required="true" Variant="Variant.Outlined" />
+
+    <MudStack Row="true" Spacing="1" Class="mt-2">
+        <MudButton Variant="Variant.Text" OnClick="Cancel">Abbrechen</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="_isSubmitting" OnClick="SaveAsync">
+            @(_isSubmitting ? "Speichern..." : "Speichern")
+        </MudButton>
+    </MudStack>
+</MudStack>
+</MudPaper>
+
+@code {
+    private const string CurrentUserInitials = "LS";
+    private const string CurrentUsername = "Leon Sommer";
+    private const string CurrentLocation = "Karlsruhe";
+
+    private readonly List<string> _categories = new();
+    private readonly string[] _filterTags = { "Alle", "Neu", "In der Nähe", "Preisalarm" };
+    private readonly ListingUpsertModel _model = new();
+    private int? _priceRaw;
+
+    private bool _isSubmitting;
+    private bool _isLoadingCategories;
+    private bool _isLoadingListing;
+
+    [Parameter]
+    public Guid? ListingId { get; set; }
+
+    private bool _isEditMode => ListingId.HasValue && ListingId.Value != Guid.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _model.Username = CurrentUsername;
+        _model.UserInitials = CurrentUserInitials;
+        _model.Location = CurrentLocation;
+        _model.ThumbClass = "thumb-misc";
+        _model.Emoji = "📦";
+        _priceRaw = null;
+
+        await LoadCategoriesAsync();
+        await LoadListingForEditAsync();
+        EnsureDefaults();
+    }
+
+    private async Task LoadListingForEditAsync()
+    {
+        if (!_isEditMode)
+        {
+            return;
+        }
+
+        _isLoadingListing = true;
+        try
+        {
+            var listing = await Http.GetFromJsonAsync<ListingOutputModel>($"api/Listing/{ListingId!.Value}");
+            if (listing is null)
+            {
+                Snackbar.Add("Anzeige nicht gefunden.", Severity.Error);
+                NavigationManager.NavigateTo("/meine-anzeigen");
+                return;
+            }
+
+            _model.Title = listing.Title;
+            _model.Category = listing.Category;
+            _model.FilterTag = listing.FilterTag;
+            _model.Emoji = listing.Emoji;
+            _model.PriceSuffix = listing.PriceSuffix;
+            _model.Badge = listing.Badge;
+            _model.BadgeClass = listing.BadgeClass;
+            _model.ThumbClass = listing.ThumbClass;
+            _model.Username = listing.Username;
+            _model.UserInitials = listing.UserInitials;
+            _model.Location = listing.Location;
+            _model.AvatarBg = listing.AvatarBg;
+            _model.AvatarColor = listing.AvatarColor;
+            _priceRaw = listing.PriceRaw;
+
+            if (!_categories.Contains(_model.Category, StringComparer.OrdinalIgnoreCase))
+            {
+                _categories.Add(_model.Category);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Anzeige konnte nicht geladen werden: {ex.Message}", Severity.Error);
+            NavigationManager.NavigateTo("/meine-anzeigen");
+        }
+        finally
+        {
+            _isLoadingListing = false;
+        }
+    }
+
+    private async Task LoadCategoriesAsync()
+    {
+        _isLoadingCategories = true;
+        try
+        {
+            var apiCategories = await Http.GetFromJsonAsync<List<string>>("api/Listing/categories");
+            if (apiCategories is not null)
+            {
+                _categories.AddRange(apiCategories.Where(c => !string.IsNullOrWhiteSpace(c)));
+            }
+        }
+        catch
+        {
+            Snackbar.Add("Kategorien konnten nicht geladen werden.", Severity.Warning);
+        }
+        finally
+        {
+            _isLoadingCategories = false;
+        }
+    }
+
+    private void EnsureDefaults()
+    {
+        if (_categories.Count == 0)
+        {
+            _categories.Add("Sonstiges");
+        }
+
+        if (string.IsNullOrWhiteSpace(_model.Category))
+        {
+            _model.Category = _categories[0];
+        }
+
+        if (string.IsNullOrWhiteSpace(_model.FilterTag))
+        {
+            _model.FilterTag = _filterTags[0];
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        _isSubmitting = true;
+        try
+        {
+            if (!_priceRaw.HasValue)
+            {
+                Snackbar.Add("Bitte gib einen Preis ein.", Severity.Warning);
+                return;
+            }
+
+            _model.PriceRaw = _priceRaw.Value;
+
+            var response = _isEditMode
+                ? await Http.PutAsJsonAsync($"api/Listing/{ListingId!.Value}", _model)
+                : await Http.PostAsJsonAsync("api/Listing", _model);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorText = await response.Content.ReadAsStringAsync();
+                Snackbar.Add($"Speichern fehlgeschlagen: {errorText}", Severity.Error);
+                return;
+            }
+
+            Snackbar.Add(_isEditMode ? "Anzeige aktualisiert." : "Anzeige gespeichert.", Severity.Success);
+            NavigationManager.NavigateTo("/meine-anzeigen");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Fehler beim Speichern: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+
+    private void Cancel() => NavigationManager.NavigateTo("/meine-anzeigen");
+}

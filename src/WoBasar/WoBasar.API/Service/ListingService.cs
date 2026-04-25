@@ -1,5 +1,6 @@
 ﻿using WoBasar.API.Database;
 using WoBasar.Shared;
+using WoBasar.Shared.Models;
 
 namespace WoBasar.API.Service
 {
@@ -16,7 +17,52 @@ namespace WoBasar.API.Service
         {
             var listingsFromDb = await _repository.GetListingsAsync();
 
-            var listingOutput = listingsFromDb.Select(l => new ListingOutputModel
+            return MapToOutput(listingsFromDb);
+        }
+
+        public async Task<List<ListingOutputModel>> GetMyListingsAsync(string userInitials)
+        {
+            var listingsFromDb = await _repository.GetListingsByUserInitialsAsync(userInitials);
+
+            return MapToOutput(listingsFromDb);
+        }
+
+        public Task<List<string>> GetDistinctCategoriesAsync()
+        {
+            return _repository.GetDistinctCategoriesAsync();
+        }
+
+        public async Task<ListingOutputModel?> GetListingByIdAsync(Guid id)
+        {
+            var listing = await _repository.GetListingByIdAsync(id);
+            return listing is null ? null : MapToOutput(listing);
+        }
+
+        public async Task<ListingOutputModel> CreateListingAsync(ListingUpsertModel request)
+        {
+            var created = await _repository.CreateListingAsync(request);
+            return MapToOutput(created);
+        }
+
+        public async Task<ListingOutputModel?> UpdateListingAsync(Guid id, ListingUpsertModel request)
+        {
+            var updated = await _repository.UpdateListingAsync(id, request);
+            return updated is null ? null : MapToOutput(updated);
+        }
+
+        public Task<bool> DeleteListingAsync(Guid id)
+        {
+            return _repository.DeleteListingAsync(id);
+        }
+
+        private static List<ListingOutputModel> MapToOutput(IEnumerable<ListingModel> listingsFromDb)
+        {
+            return listingsFromDb.Select(MapToOutput).ToList();
+        }
+
+        private static ListingOutputModel MapToOutput(ListingModel l)
+        {
+            return new ListingOutputModel
             {
                 Id = l.Id,
                 Title = l.Title,
@@ -37,11 +83,7 @@ namespace WoBasar.API.Service
                 PriceRaw = l.PriceRaw,
                 CreatedAt = l.CreatedAt,
                 UpdatedAt = l.UpdatedAt
-            }).ToList();
-
-
-            return listingOutput;
+            };
         }
-
     }
 }

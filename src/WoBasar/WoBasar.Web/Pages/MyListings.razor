@@ -1,0 +1,103 @@
+@page "/meine-anzeigen"
+@using System.Net.Http.Json
+@using WoBasar.Shared
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+<PageTitle>Meine Anzeigen</PageTitle>
+
+<MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Class="mb-4" Style="flex-wrap: wrap; gap: 8px;">
+    <MudText Typo="Typo.h5" Style="font-weight: 700;">Meine Anzeigen</MudText>
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Add"
+               Href="/meine-anzeigen/neu">
+        Anzeige
+    </MudButton>
+</MudStack>
+
+@if (_isLoading)
+{
+    <MudProgressCircular Indeterminate="true" />
+}
+else if (_myListings.Count == 0)
+{
+    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
+        Du hast noch keine Anzeigen erstellt.
+    </MudAlert>
+}
+else
+{
+    <MudGrid>
+        @foreach (var listing in _myListings)
+        {
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <ListingCard Listing="listing"
+                             ShowOwnerActions="true"
+                             OnEditRequested="OpenEditDialogAsync"
+                             OnDeleteRequested="DeleteListingAsync" />
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+    private const string CurrentUserInitials = "LS";
+
+    private readonly List<ListingOutputModel> _myListings = new();
+    private bool _isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMineAsync();
+    }
+
+    private async Task LoadMineAsync()
+    {
+        _isLoading = true;
+        try
+        {
+            var listings = await Http.GetFromJsonAsync<List<ListingOutputModel>>($"api/Listing/mine?userInitials={CurrentUserInitials}");
+            _myListings.Clear();
+            if (listings is not null)
+            {
+                _myListings.AddRange(listings.OrderByDescending(x => x.UpdatedAt));
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Meine Anzeigen konnten nicht geladen werden: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private Task OpenEditDialogAsync(Guid listingId)
+    {
+        NavigationManager.NavigateTo($"/meine-anzeigen/bearbeiten/{listingId}");
+        return Task.CompletedTask;
+    }
+
+    private async Task DeleteListingAsync(Guid listingId)
+    {
+        try
+        {
+            var response = await Http.DeleteAsync($"api/Listing/{listingId}");
+            if (!response.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Löschen fehlgeschlagen.", Severity.Error);
+                return;
+            }
+
+            _myListings.RemoveAll(x => x.Id == listingId);
+            Snackbar.Add("Anzeige gelöscht.", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Fehler beim Löschen: {ex.Message}", Severity.Error);
+        }
+    }
+}

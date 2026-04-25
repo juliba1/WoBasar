@@ -1,30 +1,73 @@
-﻿@using WoBasar.Shared.Models
+﻿@using WoBasar.Shared
 
-<MudCard Class="listing-card">
-    <MudCardMedia Image="https://via.placeholder.com/300x180" Height="180" />
+<div class="wo-card">
+    <div class="wo-card-thumb @Listing.ThumbClass">@Listing.Emoji</div>
 
-    <MudCardContent>
-        <MudText Typo="Typo.h6">@Listing.Title</MudText>
+    @if (!string.IsNullOrWhiteSpace(Listing.Badge))
+    {
+        <div class="wo-card-badge @Listing.BadgeClass">@Listing.Badge</div>
+    }
 
-        <MudText Class="mt-1" Color="Color.Secondary">
-            @Listing.Description
-        </MudText>
+    <div class="wo-card-fav">
+        <MudIcon Icon="@(Listing.Saved ? Icons.Material.Filled.Favorite : Icons.Material.Outlined.FavoriteBorder)"
+                 Style="@(Listing.Saved ? "color: #E24B4A; font-size: 13px;" : "color: #aaa; font-size: 13px;")" />
+    </div>
 
-        <MudChip Class="category-chip mt-2" T="MDLTest" Color="Color.Primary" Variant="Variant.Outlined">
-            @Listing.Category
-        </MudChip>
+    <div class="wo-card-body">
+        <div class="wo-card-cat">@Listing.Category</div>
+        <div class="wo-card-title">@Listing.Title</div>
+        <div class="wo-card-price">
+            @Listing.Price
+            @if (!string.IsNullOrWhiteSpace(Listing.PriceSuffix))
+            {
+                <span> @Listing.PriceSuffix</span>
+            }
+        </div>
 
-        <MudText Class="price mt-3">@Listing.Price €</MudText>
-    </MudCardContent>
+        <div class="wo-card-meta">
+            <div class="wo-user-avatar" style="background: @Listing.AvatarBg; color: @Listing.AvatarColor;">
+                @Listing.UserInitials
+            </div>
+            <span class="wo-card-user">@Listing.Username</span>
+            <span class="wo-card-loc">
+                <MudIcon Icon="@Icons.Material.Filled.LocationOn" Style="font-size: 10px;" />
+                @Listing.Location
+            </span>
+        </div>
 
-    <MudCardActions>
-        <MudButton Variant="Variant.Text" Color="Color.Primary">
-            Details
-        </MudButton>
-    </MudCardActions>
-</MudCard>
+        @if (ShowOwnerActions)
+        {
+            <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Class="mt-2">
+                <MudButton Variant="Variant.Outlined"
+                           Size="Size.Small"
+                           Color="Color.Primary"
+                           OnClick="OnEditClicked">
+                    Bearbeiten
+                </MudButton>
+
+                <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline"
+                               Color="Color.Error"
+                               Size="Size.Small"
+                               OnClick="OnDeleteClicked" />
+            </MudStack>
+        }
+    </div>
+</div>
 
 @code {
+    [Parameter, EditorRequired]
+    public ListingOutputModel Listing { get; set; } = new();
+
     [Parameter]
-    public MDLTest Listing { get; set; }
+    public bool ShowOwnerActions { get; set; }
+
+    [Parameter]
+    public EventCallback<Guid> OnEditRequested { get; set; }
+
+    [Parameter]
+    public EventCallback<Guid> OnDeleteRequested { get; set; }
+
+    private Task OnEditClicked() => OnEditRequested.InvokeAsync(Listing.Id);
+
+    private Task OnDeleteClicked() => OnDeleteRequested.InvokeAsync(Listing.Id);
 }

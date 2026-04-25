@@ -2,7 +2,6 @@
 @using MudBlazor
 
 <MudThemeProvider Theme="_theme" IsDarkMode="_isDarkMode" />
-<MudDialogProvider />
 <MudSnackbarProvider />
 <MudPopoverProvider />
 
@@ -65,7 +64,8 @@
                    StartIcon="@Icons.Material.Filled.Add"
                    Color="Color.Primary"
                    Style="font-size: 13px; font-weight: 500; border-radius: 8px; text-transform: none;"
-                   Class="mr-2 mt-2">
+                   Class="mr-2 mt-2"
+                   Href="/meine-anzeigen/neu">
             Anzeige
         </MudButton>
 
@@ -191,6 +191,11 @@
                             Icon="@Icons.Material.Filled.Person"
                             Style="font-size: 13px; border-radius: 8px;">
                     Mein Profil
+                </MudNavLink>
+                <MudNavLink Href="/meine-anzeigen"
+                            Icon="@Icons.Material.Filled.Inventory2"
+                            Style="font-size: 13px; border-radius: 8px;">
+                    Meine Anzeigen
                 </MudNavLink>
                 <MudNavLink Href="/nachrichten"
                             Icon="@Icons.Material.Filled.Message"
